@@ -1,19 +1,19 @@
-import { fetchProducts } from "./api.js";
-import { updateCartCount } from "./cart.js";
+import { fetchProducts } from './api.js';
+import { updateCartCount } from './cart.js';
 
-const productsContainer = document.querySelector("#products-container");
-const loader = document.querySelector("#loader");
-const errorMessage = document.querySelector("#error-message");
-const genreFilter = document.querySelector("#genre-filter");
+const productsContainer = document.querySelector('#products-container');
+const loader = document.querySelector('#loader');
+const errorMessage = document.querySelector('#error-message');
+const genreFilter = document.querySelector('#genre-filter');
 
 let allProducts = [];
 
 function showLoader() {
-  loader.style.display = "block";
+  loader.style.display = 'block';
 }
 
 function hideLoader() {
-  loader.style.display = "none";
+  loader.style.display = 'none';
 }
 
 function showError(message) {
@@ -21,7 +21,7 @@ function showError(message) {
 }
 
 function clearError() {
-  errorMessage.textContent = "";
+  errorMessage.textContent = '';
 }
 
 function createPriceHtml(product) {
@@ -36,7 +36,7 @@ function createPriceHtml(product) {
 }
 
 function createProductCard(product) {
-  const imageUrl = product.image?.url || "";
+  const imageUrl = product.image?.url || '';
   const imageAlt = product.image?.alt || product.title;
 
   return `
@@ -45,20 +45,20 @@ function createProductCard(product) {
       <h3>${product.title}</h3>
       <p><strong>Genre:</strong> ${product.genre}</p>
       ${createPriceHtml(product)}
-      <a href="/product/index.html?id=${product.id}">View product</a>
+      <a href="product/index.html?id=${product.id}">View product</a>
     </article>
   `;
 }
 
 function displayProducts(products) {
-  productsContainer.innerHTML = "";
+  productsContainer.innerHTML = '';
 
   if (products.length === 0) {
-    productsContainer.innerHTML = "<p>No products found.</p>";
+    productsContainer.innerHTML = '<p>No products found.</p>';
     return;
   }
 
-  const productCards = products.map(createProductCard).join("");
+  const productCards = products.map(createProductCard).join('');
   productsContainer.innerHTML = productCards;
 }
 
@@ -70,7 +70,7 @@ function createGenreOptions(products) {
   const uniqueGenres = [...new Set(genres)];
 
   uniqueGenres.forEach(function (genre) {
-    const option = document.createElement("option");
+    const option = document.createElement('option');
     option.value = genre;
     option.textContent = genre;
     genreFilter.appendChild(option);
@@ -80,7 +80,7 @@ function createGenreOptions(products) {
 function filterProductsByGenre() {
   const selectedGenre = genreFilter.value;
 
-  if (selectedGenre === "all") {
+  if (selectedGenre === 'all') {
     displayProducts(allProducts);
     return;
   }
@@ -101,13 +101,13 @@ async function initializeHomepage() {
     displayProducts(allProducts);
     createGenreOptions(allProducts);
   } catch (error) {
-    showError("Sorry, we could not load the products. Please try again later.");
+    showError('Sorry, we could not load the products. Please try again later.');
   } finally {
     hideLoader();
   }
 }
 
-genreFilter.addEventListener("change", filterProductsByGenre);
+genreFilter.addEventListener('change', filterProductsByGenre);
 
 updateCartCount();
 initializeHomepage();
